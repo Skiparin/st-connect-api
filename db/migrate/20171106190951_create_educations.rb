@@ -1,6 +1,7 @@
 class CreateEducations < ActiveRecord::Migration[5.1]
   def change
     create_table :educations do |t|
+      t.integer :user_id
     	t.string :degree, null: false
     	t.string :school, null: false
     	t.string :field_of_study, null: false
