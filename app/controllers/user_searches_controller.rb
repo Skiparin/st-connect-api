@@ -17,7 +17,7 @@ class UserSearchesController < ApplicationController
 				sql_string << make_sql_query(f,v)
 			end
 
-		@results = User.where(sql_string[0..-4])
+		@results = User.joins(:skill, :experience, :education).where(sql_string[0..-4])
 		end
 
 		def get_result_with_simple_search
@@ -32,6 +32,12 @@ class UserSearchesController < ApplicationController
 				"#{filter} like '%#{value}%' AND"
 			when "email"
 				"#{filter} like '%#{value}%' AND"
+			when "skill"
+				"skills.name like '%#{value}%' AND"
+			when "experience"
+				"experiences.degree like '%#{value}%' AND"
+			when "skill"
+				"educations.title like '%#{value}%' AND"
 			end
 		end
 end

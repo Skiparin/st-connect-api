@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171101150839) do
+ActiveRecord::Schema.define(version: 20171107100841) do
 
   create_table "active_admin_comments", force: :cascade do |t|
     t.string "namespace"
@@ -41,6 +41,41 @@ ActiveRecord::Schema.define(version: 20171101150839) do
     t.datetime "updated_at", null: false
     t.index ["email"], name: "index_admin_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_admin_users_on_reset_password_token", unique: true
+  end
+
+  create_table "educations", force: :cascade do |t|
+    t.integer "user_id"
+    t.string "degree", null: false
+    t.string "school", null: false
+    t.string "field_of_study", null: false
+    t.string "location", null: false
+    t.string "start_time", null: false
+    t.string "end_time", null: false
+    t.boolean "is_still_working", default: true, null: false
+    t.string "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "experiences", force: :cascade do |t|
+    t.integer "user_id"
+    t.string "title", null: false
+    t.string "company"
+    t.string "location", null: false
+    t.string "start_time", null: false
+    t.string "end_time", null: false
+    t.boolean "is_still_working", default: true, null: false
+    t.string "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "skills", force: :cascade do |t|
+    t.integer "user_id"
+    t.string "name", null: false
+    t.string "description", default: ""
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "users", force: :cascade do |t|

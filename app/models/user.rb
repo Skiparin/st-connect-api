@@ -13,4 +13,9 @@ class User < ActiveRecord::Base
                                     uniqueness: { case_sensitive: false },
 									                  uniqueness: true, if: :email
 
+
+  has_many :experience
+  has_many :education
+  has_many :skill
+
 end
