@@ -24,18 +24,5 @@ class Experience < ApplicationRecord
 	validates :is_still_working,            presence: true,
 																					inclusion: { in: [ true, false ] }
 
-
-																					t.integer "user_id"
-    t.string "title", null: false
-    t.string "company"
-    t.string "location", null: false
-    t.string "start_time", null: false
-    t.string "end_time", null: false
-    t.boolean "is_still_working", default: true, null: false
-    t.string "description"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
   has_one :user
 end

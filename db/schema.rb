@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171107100841) do
+ActiveRecord::Schema.define(version: 20171109151911) do
 
   create_table "active_admin_comments", force: :cascade do |t|
     t.string "namespace"
@@ -49,9 +49,9 @@ ActiveRecord::Schema.define(version: 20171107100841) do
     t.string "school", null: false
     t.string "field_of_study", null: false
     t.string "location", null: false
-    t.string "start_time", null: false
-    t.string "end_time", null: false
-    t.boolean "is_still_working", default: true, null: false
+    t.date "start_time", null: false
+    t.date "end_time", null: false
+    t.boolean "is_still_studying", default: true, null: false
     t.string "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -62,8 +62,8 @@ ActiveRecord::Schema.define(version: 20171107100841) do
     t.string "title", null: false
     t.string "company"
     t.string "location", null: false
-    t.string "start_time", null: false
-    t.string "end_time", null: false
+    t.date "start_time", null: false
+    t.date "end_time", null: false
     t.boolean "is_still_working", default: true, null: false
     t.string "description"
     t.datetime "created_at", null: false
