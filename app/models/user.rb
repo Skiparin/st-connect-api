@@ -14,8 +14,8 @@ class User < ActiveRecord::Base
 									                  uniqueness: true, if: :email
 
 
-  has_many :experience
-  has_many :education
-  has_many :skill
+  has_many :experience,   dependent: :destroy
+  has_many :education,    dependent: :destroy
+  has_many :skill,        dependent: :destroy
 
 end
