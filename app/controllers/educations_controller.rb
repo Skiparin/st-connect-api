@@ -1,0 +1,36 @@
+class EducationsController < ApplicationController
+	before_action :create_education, only: [:create]
+	before_action :find_and_update_education, only: [:update]
+
+	def create
+		render json: @education, status: 201
+	end
+
+	def update
+		
+	end 
+
+	private
+
+	def find_and_update_education
+		@education = Education.find(params[:id])
+		@education.update_attributes!(e_params)
+	end
+
+	def create_education
+		@education = Education.new(e_params)
+		User.first.education << @education
+		@education.save!
+	end
+
+	def e_params
+      params.require(:education).permit(:degree,
+                                   :school,
+                                   :field_of_study
+                                   :location,
+                                   :start_time,
+                                   :end_time,
+                                   :is_still_studying,
+                                   :description)
+	end
+end

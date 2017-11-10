@@ -6,5 +6,8 @@ Rails.application.routes.draw do
 
   resources :users, only: [:show] do
   	resources :user_searches, only: [:index, :create]
+  	resources :skills, only: [:create, :update]
+  	resources :experiences, only: [:create, :update]
+  	resources :skills, only: [:create, :update]
   end
 end
