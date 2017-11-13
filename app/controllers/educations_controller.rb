@@ -1,4 +1,4 @@
-class EducationsController < ApplicationController
+class EducationsController < ApiController
 	before_action :create_education, only: [:create]
 	before_action :find_and_update_education, only: [:update]
 
@@ -7,7 +7,8 @@ class EducationsController < ApplicationController
 	end
 
 	def update
-		
+    raise ActiveRecord::RecordNotFound, "No eeducation found" if @education.empty?
+		render json: @education, status: 200
 	end 
 
 	private
@@ -24,13 +25,13 @@ class EducationsController < ApplicationController
 	end
 
 	def e_params
-      params.require(:education).permit(:degree,
-                                   :school,
-                                   :field_of_study
-                                   :location,
-                                   :start_time,
-                                   :end_time,
-                                   :is_still_studying,
-                                   :description)
+      params.require(:education).permit( :degree,
+                                         :school,
+                                         :field_of_study
+                                         :location,
+                                         :start_time,
+                                         :end_time,
+                                         :is_still_studying,
+                                         :description)
 	end
 end
