@@ -20,13 +20,13 @@ class CommentController < ApplicationController
 
   def create_comment
     @comment = Comment.new(c_params)
-    User.first.comment << @comment
+    Post.find(params[:post_id]).comment << @comment
     @comment.save!
   end
 
   def c_params
       params.require(:comment).permit(:user_id,
-                                   :post_id,
-                                   :text)
+                                      :post_id,
+                                      :text)
   end
 end
