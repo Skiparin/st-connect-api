@@ -6,8 +6,12 @@ Rails.application.routes.draw do
 
   resources :users, only: [:show] do
   	resources :user_searches, only: [:index, :create]
-  	resources :skills, only: [:create, :update]
+  	resources :educations, only: [:create, :update]
   	resources :experiences, only: [:create, :update]
   	resources :skills, only: [:create, :update]
+    resources :posts, only: [:create, :update] do
+      resources :comments, only: [:create, :update]
+      resources :likes, only: [:create, :update]
+    end
   end
 end
