@@ -1,4 +1,4 @@
-class ExperiencesController < ApplicationController
+class ExperiencesController < ApiController
 	before_action :create_experience, only: [:create]
 	before_action :find_and_update_experience, only: [:update]
 
@@ -7,7 +7,8 @@ class ExperiencesController < ApplicationController
 	end
 
 	def update
-		
+    raise ActiveRecord::RecordNotFound, "No experience found" if @experience.empty?
+		render json: @experience, status: 200
 	end 
 
 	private
