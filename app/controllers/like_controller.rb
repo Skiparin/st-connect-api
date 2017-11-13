@@ -20,7 +20,7 @@ class LikeController < ApiController
 
   def create_like
     @like = Like.new(l_params)
-    User.first.like << @like
+    Post.find(params[:post_id]).like << @like
     @like.save!
   end
 
