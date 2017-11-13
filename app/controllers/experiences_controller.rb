@@ -25,11 +25,11 @@ class ExperiencesController < ApplicationController
 
 	def e_params
       params.require(:experience).permit(:title,
-                                   :company,
-                                   :location,
-                                   :start_time,
-                                   :end_time,
-                                   :is_still_working,
-                                   :description)
+                                         :company,
+                                         :location,
+                                         :start_time,
+                                         :end_time,
+                                         :is_still_working,
+                                         :description)
 	end
 end
