@@ -1,4 +1,4 @@
-class SkillsController < ApplicationController
+class SkillsController < ApiController
 	before_action :create_skill, only: [:create]
 	before_action :find_and_update_skill, only: [:update]
 
@@ -7,7 +7,8 @@ class SkillsController < ApplicationController
 	end
 
 	def update
-		
+		raise ActiveRecord::RecordNotFound, "No skill found" if @skill.empty?
+		render json: @skill, status: 200
 	end 
 
 	private
