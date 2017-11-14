@@ -1,6 +1,12 @@
-class PostController < ApplicationController
+class PostsController < ApplicationController
+  before_action :find_posts, only: [:index]
   before_action :create_post, only: [:create]
   before_action :find_and_update_post, only: [:update]
+
+  def index
+    raise ActiveRecord::RecordNotFound, "No post found" if @posts.empty?
+    render json: @posts, status: 200
+  end
 
   def create
     render json: @post, status: 201
@@ -12,6 +18,10 @@ class PostController < ApplicationController
   end 
 
   private
+
+  def find_posts
+    @posts =  Post.order(created_at: :desc).limit(params[:size])
+  end
 
   def find_and_update_post
     @post = Post.find(params[:id])

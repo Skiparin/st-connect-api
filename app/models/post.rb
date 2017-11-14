@@ -7,7 +7,7 @@ class Post < ApplicationRecord
                                           length: { maximum: 300 }
 
 
-  has_many :like
-  has_many :comment
+  has_many :like, dependent: :destroy
+  has_many :comment, dependent: :destroy
   has_one :user
 end

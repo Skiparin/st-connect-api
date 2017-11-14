@@ -3,10 +3,12 @@ class UserSearchesController < ApplicationController
 	before_action :get_result, only: [:create]
 
 	def index
+		raise ActiveRecord::RecordNotFound, "No users found" if @result.empty?
     render json: @result, status: 200
 	end
 
 	def create
+		raise ActiveRecord::RecordNotFound, "No users found" if @results.empty?
 		render json: @results, status: 200
 	end
 

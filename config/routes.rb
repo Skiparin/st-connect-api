@@ -9,9 +9,11 @@ Rails.application.routes.draw do
   	resources :educations, only: [:create, :update]
   	resources :experiences, only: [:create, :update]
   	resources :skills, only: [:create, :update]
-    resources :posts, only: [:create, :update] do
+  end
+
+  resources :posts, only: [:index, :create, :update] do
       resources :comments, only: [:create, :update]
       resources :likes, only: [:create, :update]
-    end
   end
+
 end
