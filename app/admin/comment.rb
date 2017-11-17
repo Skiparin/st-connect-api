@@ -13,16 +13,19 @@ ActiveAdmin.register Comment, :as => "PostComment" do
 #   permitted
 # end
 
+menu parent: 'Posts'
+
 form do |f|
     f.inputs 'Comment' do
-      f.input :user_id, label: "User", as: :select, collection: User.all.each.map{|t| ["#{t.name}", t.id]}, include_blank: false
-      f.input :post_id
+      f.input :post_id, label: "post", as: :select, collection: Post.all.each.map{|t| ["#{t.id}", t.id]}, include_blank: false
+      f.input :profile_id, label: "Profile", as: :select, collection: Profile.all.each.map{|t| ["#{t.name}", t.id]}, include_blank: false
+      f.input :text
       
     end
     f.semantic_errors *f.object.errors.keys
     f.actions
 end
 
-permit_params :user_id, :post_id
+permit_params :text, :post_id, :profile_id
 
 end

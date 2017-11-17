@@ -13,9 +13,6 @@ class User < ActiveRecord::Base
                                     uniqueness: { case_sensitive: false },
 									                  uniqueness: true, if: :email
 
-
-  has_many :experience,   dependent: :destroy
-  has_many :education,    dependent: :destroy
-  has_many :skill,        dependent: :destroy
+  has_one :profile
 
 end

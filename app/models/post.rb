@@ -1,6 +1,6 @@
 class Post < ApplicationRecord
 
-  validates :user_id,                     presence: true,
+  validates :profile_id,                     presence: true,
                                           numericality: { greater_than_or_equal_to: 0 }
 
   validates :text,                        presence: true,
@@ -9,5 +9,6 @@ class Post < ApplicationRecord
 
   has_many :like, dependent: :destroy
   has_many :comment, dependent: :destroy
-  has_one :user
+  
+  belongs_to :profile
 end

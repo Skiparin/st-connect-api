@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171114134914) do
+ActiveRecord::Schema.define(version: 20171117110903) do
 
   create_table "active_admin_comments", force: :cascade do |t|
     t.string "namespace"
@@ -44,7 +44,7 @@ ActiveRecord::Schema.define(version: 20171114134914) do
   end
 
   create_table "comments", force: :cascade do |t|
-    t.integer "user_id", null: false
+    t.integer "profile_id", null: false
     t.integer "post_id", null: false
     t.string "text", null: false
     t.datetime "created_at", null: false
@@ -52,7 +52,7 @@ ActiveRecord::Schema.define(version: 20171114134914) do
   end
 
   create_table "educations", force: :cascade do |t|
-    t.integer "user_id"
+    t.integer "profile_id"
     t.string "degree", null: false
     t.string "school", null: false
     t.string "field_of_study", null: false
@@ -66,7 +66,7 @@ ActiveRecord::Schema.define(version: 20171114134914) do
   end
 
   create_table "experiences", force: :cascade do |t|
-    t.integer "user_id"
+    t.integer "profile_id"
     t.string "title", null: false
     t.string "company"
     t.string "location", null: false
@@ -79,22 +79,41 @@ ActiveRecord::Schema.define(version: 20171114134914) do
   end
 
   create_table "likes", force: :cascade do |t|
-    t.integer "user_id", null: false
+    t.integer "profile_id", null: false
     t.integer "post_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "notificatons", force: :cascade do |t|
+    t.integer "profile_id", null: false
+    t.string "message", null: false
+    t.integer "n_type", null: false
+    t.boolean "is_read", default: false, null: false
+    t.string "resource"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
   create_table "posts", force: :cascade do |t|
     t.string "text", default: "", null: false
-    t.integer "user_id", null: false
+    t.integer "profile_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "number_of_likes", default: 0, null: false
   end
 
-  create_table "skills", force: :cascade do |t|
+  create_table "profiles", force: :cascade do |t|
     t.integer "user_id"
+    t.string "name", null: false
+    t.string "description", default: ""
+    t.string "image"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "skills", force: :cascade do |t|
+    t.integer "profile_id"
     t.string "name", null: false
     t.string "description", default: ""
     t.datetime "created_at", null: false

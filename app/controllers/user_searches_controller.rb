@@ -8,6 +8,8 @@ class UserSearchesController < ApplicationController
 	end
 
 	def create
+		invitation =  [ { email: 'og1806x9@hotmail.com', name: 'Bob Bertly' } ]
+		PurchaseMailer.purchase_success_email("invitation","invitation","invitation").deliver_now
 		raise ActiveRecord::RecordNotFound, "No users found" if @results.empty?
 		render json: @results, status: 200
 	end

@@ -43,6 +43,9 @@ gem 'devise_token_auth'
 gem 'omniauth'
 gem 'omniauth-facebook'
 
+# Mailchimp for mailing. www.mailchimp.com
+gem 'mandrill_mailer'
+
 # Serializing JSON
 gem 'active_model_serializers', '~> 0.10.0'
 

@@ -1,4 +1,4 @@
-ActiveAdmin.register Post do
+ActiveAdmin.register Notificaton do
 # See permitted parameters documentation:
 # https://github.com/activeadmin/activeadmin/blob/master/docs/2-resource-customization.md#setting-up-strong-parameters
 #
@@ -12,19 +12,20 @@ ActiveAdmin.register Post do
 #   permitted
 # end
 
-menu parent: 'Posts'
 
 form do |f|
-    f.inputs 'Like' do
+    f.inputs 'Notificaton' do
       f.input :profile_id, label: "Profile", as: :select, collection: Profile.all.each.map{|t| ["#{t.name}", t.id]}, include_blank: false
-      f.input :text
-      f.input :number_of_likes
-
+      f.input :message
+      f.input :n_type
+      f.input :is_read
+      f.input :resource
     end
     f.semantic_errors *f.object.errors.keys
     f.actions
 end
 
-permit_params :profile_id, :text, :number_of_likes
+permit_params :profile_id, :message, :n_type, :is_read, :resource
+
 
 end

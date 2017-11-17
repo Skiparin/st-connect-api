@@ -1,6 +1,6 @@
 class Experience < ApplicationRecord
 
-	validates :user_id,             				presence: true,
+	validates :profile_id,             		  presence: true,
                                   				numericality: { greater_than_or_equal_to: 0 }
 
   validates :title,               				presence: true,
@@ -24,5 +24,5 @@ class Experience < ApplicationRecord
 	validates :is_still_working,            presence: true,
 																					inclusion: { in: [ true, false ] }
 
-  has_one :user
+  belongs_to :profile
 end

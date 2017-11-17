@@ -1,6 +1,6 @@
 class Education < ApplicationRecord
 	
-	validates :user_id,             				presence: true,
+	validates :profile_id,             		  presence: true,
                                   				numericality: { greater_than_or_equal_to: 0 }
 
   validates :degree,               				presence: true,
@@ -24,9 +24,9 @@ class Education < ApplicationRecord
 	validates :description,            			presence: true,
 																					length: { maximum: 150 }
 
-	validates :is_still_working,            presence: true,
+	validates :is_still_studying,           presence: true,
 																					inclusion: { in: [ true, false ] }																														
 
-  has_one :user
+  belongs_to :profile
 
 end

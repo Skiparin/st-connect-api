@@ -16,7 +16,7 @@ menu parent: 'User'
 
 form do |f|
     f.inputs 'Experience' do
-      f.input :user_id, label: "User", as: :select, collection: User.all.each.map{|t| ["#{t.name}", t.id]}, include_blank: false
+      f.input :profile_id, label: "Profile", as: :select, collection: Profile.all.each.map{|t| ["#{t.name}", t.id]}, include_blank: false
       f.input :title
       f.input :company
       f.input :location
@@ -29,6 +29,6 @@ form do |f|
     f.actions
 end
 
-permit_params :user_id, :title, :company, :location, :start_time, :end_time, :is_still_working, :description
+permit_params :profile_id, :title, :company, :location, :start_time, :end_time, :is_still_working, :description
 
 end
