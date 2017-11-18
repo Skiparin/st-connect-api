@@ -1,4 +1,4 @@
-ActiveAdmin.register Notificaton do
+ActiveAdmin.register Notification do
 # See permitted parameters documentation:
 # https://github.com/activeadmin/activeadmin/blob/master/docs/2-resource-customization.md#setting-up-strong-parameters
 #
@@ -14,7 +14,7 @@ ActiveAdmin.register Notificaton do
 
 
 form do |f|
-    f.inputs 'Notificaton' do
+    f.inputs 'Notification' do
       f.input :profile_id, label: "Profile", as: :select, collection: Profile.all.each.map{|t| ["#{t.name}", t.id]}, include_blank: false
       f.input :message
       f.input :n_type

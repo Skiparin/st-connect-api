@@ -11,7 +11,7 @@ Rails.application.routes.draw do
   	resources :skills, only: [:create, :update]
   end
 
-  resources :posts, only: [:index, :create, :update] do
+  resources :posts, only: [:index, :show, :create, :update] do
       resources :comments, only: [:create, :update]
       resources :likes, only: [:create, :update]
   end
