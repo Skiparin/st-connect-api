@@ -8,8 +8,6 @@ class UserSearchesController < ApplicationController
 	end
 
 	def create
-		invitation =  [ { email: 'og1806x9@hotmail.com', name: 'Bob Bertly' } ]
-		PurchaseMailer.purchase_success_email("invitation","invitation","invitation").deliver_now
 		raise ActiveRecord::RecordNotFound, "No users found" if @results.empty?
 		render json: @results, status: 200
 	end
@@ -21,11 +19,11 @@ class UserSearchesController < ApplicationController
 				sql_string << make_sql_query(f,v)
 			end
 
-		@results = User.joins(:skill, :experience, :education).where(sql_string[0..-4])
+		@results = Profile.joins(:skill, :experience, :education).where(sql_string[0..-4])
 		end
 
 		def get_result_with_simple_search
-			@result = User.where("#{params[:filter]} like '%#{params[:value]}%'")
+			@result = Profile.where("#{params[:filter]} like '%#{params[:value]}%'")
 		end
 
 		def make_sql_query(filter, value)
