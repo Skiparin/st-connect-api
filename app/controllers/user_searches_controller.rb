@@ -9,7 +9,7 @@ class UserSearchesController < ApplicationController
 
 	def create
 		raise ActiveRecord::RecordNotFound, "No users found" if @results.empty?
-		render json: @results, status: 200
+		render json: @results, status: 201
 	end
 
 	private
@@ -19,7 +19,7 @@ class UserSearchesController < ApplicationController
 				sql_string << make_sql_query(f,v)
 			end
 
-		@results = Profile.joins(:skill, :experience, :education).where(sql_string[0..-4])
+			@results = Profile.joins(:skill, :experience, :education).where(sql_string[0..-4])
 		end
 
 		def get_result_with_simple_search
@@ -29,8 +29,6 @@ class UserSearchesController < ApplicationController
 		def make_sql_query(filter, value)
 			case filter
 			when "name"
-				"#{filter} like '%#{value}%' AND"
-			when "nickname"
 				"#{filter} like '%#{value}%' AND"
 			when "email"
 				"#{filter} like '%#{value}%' AND"
