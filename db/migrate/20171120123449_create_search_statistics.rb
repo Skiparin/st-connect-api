@@ -4,6 +4,7 @@ class CreateSearchStatistics < ActiveRecord::Migration[5.1]
     	t.string :search_string, null: false
     	t.string :target, null: false
     	t.integer :number_of_searches, null: false, default: 0
+      t.string :job_descriptions_using_search
       t.timestamps
     end
   end

@@ -11,12 +11,13 @@ class Profile < ApplicationRecord
 
 	belongs_to :user
 
-	has_many :experience,     dependent: :destroy
-  has_many :education,      dependent: :destroy
-  has_many :skill,          dependent: :destroy
-  has_many :post, 				  dependent: :destroy
-  has_many :notification,   dependent: :destroy
-  has_many :comment
-  has_many :likes
+  has_many                  :comment
+  has_many                  :likes
+	has_many                  :experience,        dependent: :destroy
+  has_many                  :education,         dependent: :destroy
+  has_many                  :post, 				      dependent: :destroy
+  has_many                  :notification,      dependent: :destroy
+  has_and_belongs_to_many   :skill,             dependent: :destroy
+  has_and_belongs_to_many   :search_statistic
 
 end

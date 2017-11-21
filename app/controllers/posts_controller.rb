@@ -30,7 +30,7 @@ class PostsController < ApplicationController
   end
 
   def find_posts
-    @posts =  Post.order(created_at: :desc).limit(params[:size])
+    @posts = Post.order(created_at: :desc).limit(params[:size])
   end
 
   def find_and_update_post

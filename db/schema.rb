@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171118150501) do
+ActiveRecord::Schema.define(version: 20171121142154) do
 
   create_table "active_admin_comments", force: :cascade do |t|
     t.string "namespace"
@@ -112,8 +112,30 @@ ActiveRecord::Schema.define(version: 20171118150501) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "profiles_search_statistics", id: false, force: :cascade do |t|
+    t.integer "search_statistic_id", null: false
+    t.integer "profile_id", null: false
+    t.index ["profile_id"], name: "index_profiles_search_statistics_on_profile_id"
+    t.index ["search_statistic_id"], name: "index_profiles_search_statistics_on_search_statistic_id"
+  end
+
+  create_table "profiles_skills", id: false, force: :cascade do |t|
+    t.integer "skill_id", null: false
+    t.integer "profile_id", null: false
+    t.index ["profile_id"], name: "index_profiles_skills_on_profile_id"
+    t.index ["skill_id"], name: "index_profiles_skills_on_skill_id"
+  end
+
+  create_table "search_statistics", force: :cascade do |t|
+    t.string "search_string", null: false
+    t.string "target", null: false
+    t.integer "number_of_searches", default: 0, null: false
+    t.string "job_descriptions_using_search"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "skills", force: :cascade do |t|
-    t.integer "profile_id"
     t.string "name", null: false
     t.string "description", default: ""
     t.datetime "created_at", null: false
