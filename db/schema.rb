@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171121142154) do
+ActiveRecord::Schema.define(version: 20171123151826) do
 
   create_table "active_admin_comments", force: :cascade do |t|
     t.string "namespace"
@@ -129,7 +129,7 @@ ActiveRecord::Schema.define(version: 20171121142154) do
   create_table "search_statistics", force: :cascade do |t|
     t.string "search_string", null: false
     t.string "target", null: false
-    t.integer "number_of_searches", default: 0, null: false
+    t.integer "number_of_searches", null: false
     t.string "job_descriptions_using_search"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

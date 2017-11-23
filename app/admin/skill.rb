@@ -16,7 +16,6 @@ menu parent: 'User'
 
 form do |f|
     f.inputs 'Skill' do
-      f.input :profile_id, label: "Profile", as: :select, collection: Profile.all.each.map{|t| ["#{t.name}", t.id]}, include_blank: false
       f.input :name
       f.input :description
     end
@@ -24,6 +23,6 @@ form do |f|
     f.actions
 end
 
-permit_params :name, :description, :profile_id
+permit_params :name, :description
 
 end

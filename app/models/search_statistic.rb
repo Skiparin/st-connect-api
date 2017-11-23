@@ -1,6 +1,6 @@
 class SearchStatistic < ApplicationRecord
 
-  serialize :job_descriptions_using_search, Array
+  serialize :job_descriptions_using_search, Hash
 
   validates :search_string,               presence: true,
                                           length: { maximum: 100 }
@@ -13,5 +13,5 @@ class SearchStatistic < ApplicationRecord
 
 
   has_and_belongs_to_many :profile
-  
+
 end

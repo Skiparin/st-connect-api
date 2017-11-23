@@ -19,7 +19,7 @@ class UserSearchesController < ApplicationController
 				sql_string << make_sql_query(f,v)
 			end
 
-			@results = Profile.joins(:skill, :experience, :education).where(sql_string[0..-4])
+			@results = Profile.includes(:skill, :experience, :education).where(sql_string[0..-4])
 		end
 
 		def get_result_with_simple_search
@@ -27,17 +27,35 @@ class UserSearchesController < ApplicationController
 		end
 
 		def make_sql_query(filter, value)
+			string = ""
 			case filter
 			when "name"
-				"#{filter} like '%#{value}%' AND"
+				string = "profiles.name like '%#{value}%' AND"
 			when "email"
-				"#{filter} like '%#{value}%' AND"
+				string = "#{filter} like '%#{value}%' AND"
 			when "skill"
-				"skills.name like '%#{value}%' AND"
+				string = "skills.name like '%#{value}%' AND"
 			when "experience"
-				"experiences.degree like '%#{value}%' AND"
+				string = "experiences.degree like '%#{value}%' AND"
 			when "education"
-				"educations.title like '%#{value}%' AND"
+				string = "educations.title like '%#{value}%' AND"
+			end
+			create_search_statistic(filter, value)
+			string
+		end
+
+		def create_search_statistic(filter, value)
+			job_desc = "datamatiker" #User.first.experience.last.title
+			search_statistic = SearchStatistic.where("search_string = ? and target = ?", value, filter).first
+			if search_statistic.nil?
+				SearchStatistic.new(search_string: value, 
+													 	target: filter, 
+													 	job_descriptions_using_search: [job_desc]).save! 
+
+			else
+				search_statistic.job_descriptions_using_search << job_desc
+				search_statistic.number_of_searches += 1
+				search_statistic.save!
 			end
 		end
 end
