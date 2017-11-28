@@ -40,20 +40,24 @@ class UserSearchesController < ApplicationController
 			when "education"
 				string = "educations.title like '%#{value}%' AND"
 			end
-			create_search_statistic(filter, value)
+			Thread.new do
+  			create_search_statistic(filter, value)
+  			ActiveRecord::Base.connection.close
+			end
+			
 			string
 		end
 
 		def create_search_statistic(filter, value)
-			job_desc = "datamatiker" #User.first.experience.last.title
+			job_desc = "datamatikerr" 
 			search_statistic = SearchStatistic.where("search_string = ? and target = ?", value, filter).first
 			if search_statistic.nil?
 				SearchStatistic.new(search_string: value, 
 													 	target: filter, 
-													 	job_descriptions_using_search: [job_desc]).save! 
+													 	job_descriptions_using_search: {job_desc: 1}).save! 
 
 			else
-				search_statistic.job_descriptions_using_search << job_desc
+				search_statistic.job_descriptions_using_search[job_desc.to_sym] = 1 + search_statistic.job_descriptions_using_search[job_desc.to_sym].to_i
 				search_statistic.number_of_searches += 1
 				search_statistic.save!
 			end
