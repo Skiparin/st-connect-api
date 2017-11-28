@@ -49,7 +49,7 @@ class UserSearchesController < ApplicationController
 		end
 
 		def create_search_statistic(filter, value)
-			job_desc = "datamatikerr" 
+			job_desc = get_job_description
 			search_statistic = SearchStatistic.where("search_string = ? and target = ?", value, filter).first
 			if search_statistic.nil?
 				SearchStatistic.new(search_string: value, 
@@ -61,5 +61,12 @@ class UserSearchesController < ApplicationController
 				search_statistic.number_of_searches += 1
 				search_statistic.save!
 			end
+		end
+
+		def get_job_description
+			User.first.experience.each do |e|
+				return e.title if e.is_still_working
+			end
+			User.first.experience.order(end_time: :desc).first.title
 		end
 end
