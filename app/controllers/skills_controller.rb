@@ -1,4 +1,6 @@
 class SkillsController < ApiController
+	before_action :authenticate_user!
+	before_action :authenticate_user_id_equals_current_user
 	before_action :create_skill, only: [:create]
 	before_action :find_and_update_skill, only: [:update]
 
@@ -20,7 +22,7 @@ class SkillsController < ApiController
 
 	def create_skill
 		@skill = Skill.new(s_params)
-		User.first.skill << @skill
+		current_user.skill << @skill
 		@skill.save!
 	end
 

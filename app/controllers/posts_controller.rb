@@ -1,4 +1,6 @@
 class PostsController < ApplicationController
+  before_action :authenticate_user!
+  before_action :authenticate_user_id_equals_current_user
   before_action :find_posts, only: [:index]
   before_action :find_post, only: [:show]
   before_action :create_post, only: [:create]
@@ -40,7 +42,7 @@ class PostsController < ApplicationController
 
   def create_post
     @post = Post.new(p_params)
-    User.first.post << @post
+    current_user.post << @post
     @post.save!
   end
 

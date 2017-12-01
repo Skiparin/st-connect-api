@@ -1,4 +1,6 @@
 class LikeController < ApiController
+  before_action :authenticate_user!
+  before_action :authenticate_user_id_equals_current_user
   before_action :create_like, only: [:create]
   before_action :find_and_update_like, only: [:update]
 
@@ -20,7 +22,7 @@ class LikeController < ApiController
 
   def create_like
     @like = Like.new(l_params)
-    Post.find(params[:post_id]).like << @like
+    Post.find(l_params[:post_id]).like << @like
     @like.save!
   end
 

@@ -1,4 +1,6 @@
 class UserSearchesController < ApplicationController
+	before_action :authenticate_user!
+	before_action :authenticate_user_id_equals_current_user
 	before_action :get_result_with_simple_search, only: [:index]
 	before_action :get_result, only: [:create]
 
@@ -41,15 +43,15 @@ class UserSearchesController < ApplicationController
 				string = "educations.title like '%#{value}%' AND"
 			end
 			Thread.new do
-  			create_search_statistic(filter, value)
-  			ActiveRecord::Base.connection.close
+  				create_search_statistic(filter, value)
+  				ActiveRecord::Base.connection.close
 			end
 			
 			string
 		end
 
 		def create_search_statistic(filter, value)
-			job_desc = get_job_description
+			job_desc = get_job_description if 
 			search_statistic = SearchStatistic.where("search_string = ? and target = ?", value, filter).first
 			if search_statistic.nil?
 				SearchStatistic.new(search_string: value, 
@@ -64,9 +66,10 @@ class UserSearchesController < ApplicationController
 		end
 
 		def get_job_description
-			User.first.experience.each do |e|
+			return "Unemployed" if current_user.experience.empty?
+			current_user.experience.each do |e|
 				return e.title if e.is_still_working
 			end
-			User.first.experience.order(end_time: :desc).first.title
+			current_user.experience.order(end_time: :desc).first.title
 		end
 end

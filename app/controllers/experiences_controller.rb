@@ -1,4 +1,6 @@
 class ExperiencesController < ApiController
+	before_action :authenticate_user!
+	before_action :authenticate_user_id_equals_current_user
 	before_action :create_experience, only: [:create]
 	before_action :find_and_update_experience, only: [:update]
 
@@ -20,7 +22,7 @@ class ExperiencesController < ApiController
 
 	def create_experience
 		@experience = Experience.new(e_params)
-		User.first.experience << @experience
+		current_user.experience << @experience
 		@experience.save!
 	end
 

@@ -1,4 +1,6 @@
 class EducationsController < ApiController
+	before_action :authenticate_user!
+	before_action :authenticate_user_id_equals_current_user
 	before_action :create_education, only: [:create]
 	before_action :find_and_update_education, only: [:update]
 
@@ -20,7 +22,7 @@ class EducationsController < ApiController
 
 	def create_education
 		@education = Education.new(e_params)
-		User.first.education << @education
+		current_user.education << @education
 		@education.save!
 	end
 

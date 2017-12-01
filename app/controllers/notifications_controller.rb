@@ -1,6 +1,8 @@
 class NotificationController < ApplicationController
-  #before_action :find_notification, only: [:update]
-  #before_action :find_notifications, only: [:index]
+  before_action :authenticate_user!
+  before_action :authenticate_user_id_equals_current_user
+  before_action :find_notification, only: [:update]
+  before_action :find_notifications, only: [:index]
 
   def index
     raise ActiveRecord::RecordNotFound, "No notification for user found" if @notifications.empty?

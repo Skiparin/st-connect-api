@@ -1,4 +1,6 @@
 class CommentController < ApplicationController
+  before_action :authenticate_user!
+  before_action :authenticate_user_id_equals_current_user
   before_action :create_comment, only: [:create]
   before_action :find_and_update_comment, only: [:update]
 
@@ -20,7 +22,7 @@ class CommentController < ApplicationController
 
   def create_comment
     @comment = Comment.new(c_params)
-    Post.find(params[:post_id]).comment << @comment
+    Post.find(c_params[:post_id]).comment << @comment
     @comment.save!
   end
 
