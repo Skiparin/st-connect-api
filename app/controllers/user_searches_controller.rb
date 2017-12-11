@@ -20,7 +20,6 @@ class UserSearchesController < ApplicationController
 			params[:filter].each do |filter, value|
 				if filter == "skill"
 					value.each do |skill_value|
-						print "****************************************" + skill_value.to_s 
 						sql_string << make_sql_query(filter, skill_value.to_s)
 					end
 				else	
@@ -58,6 +57,7 @@ class UserSearchesController < ApplicationController
   				create_search_statistic(filter, value)
   				ActiveRecord::Base.connection.close
 			end
+			
 			string[0..-5]
 		end
 
