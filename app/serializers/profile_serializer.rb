@@ -1,5 +1,5 @@
 class ProfileSerializer < ActiveModel::Serializer
-  attributes :id, :name, :description, :created_at
+  attributes :id, :name, :description
 
   has_many :experience
   has_many :education
