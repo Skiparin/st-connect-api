@@ -1,4 +1,4 @@
-class CommentController < ApplicationController
+class CommentController < ApiController
   before_action :authenticate_user!
   before_action :authenticate_user_id_equals_current_user
   before_action :create_comment, only: [:create]

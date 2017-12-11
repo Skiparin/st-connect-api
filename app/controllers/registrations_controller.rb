@@ -25,7 +25,7 @@ class RegistrationsController < DeviseTokenAuth::RegistrationsController
 
     def create_user
       user = User.new(sign_up_params)
-      password_length = 6
+      password_length = 8
       password = Devise.friendly_token.first(password_length)
       user.password = password
       user.password_confirmation = password

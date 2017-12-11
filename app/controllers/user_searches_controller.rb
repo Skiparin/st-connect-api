@@ -1,7 +1,7 @@
 class UserSearchesController < ApplicationController
 	before_action :authenticate_user!
-	before_action :authenticate_user_id_equals_current_user
 	before_action :get_result_with_simple_search, only: [:index]
+	before_action :check_if_skill_is_array, only: [:create]
 	before_action :get_result, only: [:create]
 
 	def index
@@ -17,11 +17,18 @@ class UserSearchesController < ApplicationController
 	private
 		def get_result
 			sql_string = ""
-			params[:filter].each do |f, v|
-				sql_string << make_sql_query(f,v)
+			params[:filter].each do |filter, value|
+				if filter == "skill"
+					value.each do |skill_value|
+						print "****************************************" + skill_value.to_s 
+						sql_string << make_sql_query(filter, skill_value.to_s)
+					end
+				else	
+					sql_string << make_sql_query(filter, value)
+				end
 			end
 
-			@results = Profile.includes(:skill, :experience, :education).where(sql_string[0..-4])
+			@results = Profile.includes(:skill, :education, :experience).find_by_sql(sql_string)
 		end
 
 		def get_result_with_simple_search
@@ -29,25 +36,29 @@ class UserSearchesController < ApplicationController
 		end
 
 		def make_sql_query(filter, value)
-			string = ""
+			string = "SELECT profiles.* FROM profiles"
+			string << ", skills" if ["skill"].include? filter
+			string << ", experiences" if ["experience"].include? filter
+			string << ", educations" if ["education"].include? filter
+			string << " WHERE "
 			case filter
 			when "name"
-				string = "profiles.name like '%#{value}%' AND"
+				string << "profiles.name like '%#{value}%' AND "
 			when "email"
-				string = "#{filter} like '%#{value}%' AND"
+				string << "profiles.email like '%#{value}%' AND "
 			when "skill"
-				string = "skills.name like '%#{value}%' AND"
+				string << "skills.name like '%#{value}%' AND "
 			when "experience"
-				string = "experiences.degree like '%#{value}%' AND"
+				string << "experiences.degree like '%#{value}%' AND "
 			when "education"
-				string = "educations.title like '%#{value}%' AND"
+				string << "educations.title like '%#{value}%' AND "
 			end
+
 			Thread.new do
   				create_search_statistic(filter, value)
   				ActiveRecord::Base.connection.close
 			end
-			
-			string
+			string[0..-5]
 		end
 
 		def create_search_statistic(filter, value)
@@ -63,6 +74,10 @@ class UserSearchesController < ApplicationController
 				search_statistic.number_of_searches += 1
 				search_statistic.save!
 			end
+		end
+
+		def check_if_skill_is_array
+    	raise ArgumentError.new("Skill param needs to be an array.") if !(params[:filter][:skill].is_a?(Array)) && !params[:filter][:skill].nil?
 		end
 
 		def get_job_description
