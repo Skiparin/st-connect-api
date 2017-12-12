@@ -52,6 +52,7 @@ ActiveRecord::Schema.define(version: 20171201153439) do
   end
 
   create_table "contact_infos", force: :cascade do |t|
+    t.integer "profile_id", null: false
     t.string "email"
     t.string "phone"
     t.string "address"

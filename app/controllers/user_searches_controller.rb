@@ -1,5 +1,4 @@
 class UserSearchesController < ApplicationController
-	before_action :authenticate_user!
 	before_action :get_result_with_simple_search, only: [:index]
 	before_action :check_if_skill_is_array, only: [:create]
 	before_action :get_result, only: [:create]
@@ -57,7 +56,7 @@ class UserSearchesController < ApplicationController
   				create_search_statistic(filter, value)
   				ActiveRecord::Base.connection.close
 			end
-			
+
 			string[0..-5]
 		end
 

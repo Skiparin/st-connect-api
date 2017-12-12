@@ -17,6 +17,7 @@ class Profile < ApplicationRecord
   has_many                  :education,         dependent: :destroy
   has_many                  :post, 				      dependent: :destroy
   has_many                  :notification,      dependent: :destroy
+  has_many                  :contact_info,      dependent: :destroy
   has_and_belongs_to_many   :skill,             dependent: :destroy
   has_and_belongs_to_many   :search_statistic
 
