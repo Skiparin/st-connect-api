@@ -11,7 +11,7 @@ class UserSearchesController < ApplicationController
 
 	def create
 		request.headers.each do |key, value| 
-			print "***********" + key.to_s + " : " + value.to_s + "******************"
+			print key.to_s + " : " + value.to_s + "/n"
 		end
 		raise ActiveRecord::RecordNotFound, "No users found" if @results.empty?
 		render json: @results, status: 201
