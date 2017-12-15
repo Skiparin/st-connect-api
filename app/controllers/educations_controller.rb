@@ -28,7 +28,7 @@ class EducationsController < ApiController
 	def e_params
       params.require(:education).permit( :degree,
                                          :school,
-                                         :field_of_study
+                                         :field_of_study,
                                          :location,
                                          :start_time,
                                          :end_time,
