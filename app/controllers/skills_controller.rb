@@ -22,7 +22,7 @@ class SkillsController < ApiController
 
 	def create_skill
 		@skill = Skill.new(s_params)
-		current_user.skill << @skill
+		current_user.profile.skill << @skill
 		@skill.save!
 	end
 

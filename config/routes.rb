@@ -10,6 +10,7 @@ Rails.application.routes.draw do
   	resources :educations, only: [:create, :update]
   	resources :experiences, only: [:create, :update]
   	resources :skills, only: [:create, :update]
+    resources :contact_infos, only: [:create, :update]
   end
 
   resources :posts, only: [:index, :show, :create, :update] do

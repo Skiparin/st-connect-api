@@ -21,7 +21,7 @@ class EducationsController < ApiController
 
 	def create_education
 		@education = Education.new(e_params)
-		current_user.education << @education
+		current_user.profile.education << @education
 		@education.save!
 	end
 

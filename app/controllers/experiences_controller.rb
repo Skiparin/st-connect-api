@@ -22,7 +22,7 @@ class ExperiencesController < ApiController
 
 	def create_experience
 		@experience = Experience.new(e_params)
-		current_user.experience << @experience
+		current_user.profile.experience << @experience
 		@experience.save!
 	end
 

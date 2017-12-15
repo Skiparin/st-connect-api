@@ -41,7 +41,7 @@ class PostsController < ApplicationController
 
   def create_post
     @post = Post.new(p_params)
-    current_user.post << @post
+    current_user.profile.post << @post
     @post.save!
   end
 

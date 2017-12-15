@@ -17,10 +17,10 @@ class NotificationController < ApplicationController
 
   private
     def find_notification
-      @notification = current_user.notifications.find(params[:id])
+      @notification = current_user.profile.notifications.find(params[:id])
     end
 
     def find_notifications
-      @notifications = current_user.notifications.all
+      @notifications = current_user.profile.notifications.all
     end
 end

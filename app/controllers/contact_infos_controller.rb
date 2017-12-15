@@ -13,7 +13,6 @@ class ContactInfosController < ApplicationController
 	end 
 
 	private
-
 	def find_and_update_contact_info
 		@contact_info = ContactInfo.find(params[:id])
 		@contact_info.update_attributes!(e_params)
@@ -21,7 +20,7 @@ class ContactInfosController < ApplicationController
 
 	def create_contact_info
 		@contact_info = ContactInfo.new(e_params)
-		current_user.contact_info << @contact_info
+		current_user.profile.contact_info << @contact_info
 		@contact_info.save!
 	end
 
