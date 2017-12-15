@@ -1,6 +1,5 @@
 class NotificationController < ApplicationController
   before_action :authenticate_user!
-  before_action :authenticate_user_id_equals_current_user
   before_action :find_notification, only: [:update]
   before_action :find_notifications, only: [:index]
 

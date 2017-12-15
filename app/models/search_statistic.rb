@@ -19,7 +19,7 @@ class SearchStatistic < ApplicationRecord
 
   private
   	def set_number_of_searches_to_zero
-  		self.number_of_searches = 0
+  		self.number_of_searches = 1
   	end
 
 end
