@@ -16,17 +16,21 @@ class UserSearchesController < ApplicationController
 	private
 		def get_result
 			sql_string = ""
+			query_string = ""
 			params[:filter].each do |filter, value|
+				sql_string << add_table_to_sql_string(filter, value, sql_string)
 				if filter == "skill"
 					value.each do |skill_value|
-						sql_string << make_sql_query(filter, skill_value.to_s)
+						query_string << make_sql_query(filter, skill_value.to_s)
 					end
 				else	
-					sql_string << make_sql_query(filter, value)
+					query_string << make_sql_query(filter, value)
 				end
 			end
-
-			@results = Profile.includes(:skill, :education, :experience).find_by_sql(sql_string)
+			print sql_string + "******************************** HEY"
+			sql_string << " WHERE "
+			string = sql_string << query_string[0..-5]
+			@results = Profile.includes(:skill, :education, :experience).find_by_sql(string)
 		end
 
 		def get_result_with_simple_search
@@ -34,11 +38,7 @@ class UserSearchesController < ApplicationController
 		end
 
 		def make_sql_query(filter, value)
-			string = "SELECT profiles.* FROM profiles"
-			string << ", skills" if ["skill"].include? filter
-			string << ", experiences" if ["experience"].include? filter
-			string << ", educations" if ["education"].include? filter
-			string << " WHERE "
+			string = ""
 			case filter
 			when "name"
 				string << "profiles.name like '%#{value}%' AND "
@@ -56,14 +56,12 @@ class UserSearchesController < ApplicationController
   				create_search_statistic(filter, value)
   				ActiveRecord::Base.connection.close
 			end
-
-			string[0..-5]
+			string
 		end
 
 		def create_search_statistic(filter, value)
 			job_desc = get_job_description
 			search_statistic = SearchStatistic.where("search_string = ? and target = ?", value, filter).first
-			print "*************************" + search_statistic.to_s
 			if search_statistic.nil?
 				SearchStatistic.new(search_string: value, 
 													 	target: filter, 
@@ -86,5 +84,20 @@ class UserSearchesController < ApplicationController
 				return e.title.to_sym if e.is_still_working
 			end
 			current_user.experience.order(end_time: :desc).first.title
+		end
+
+		def add_table_to_sql_string(filter, value, sql_string)
+			string = ""
+			string = "SELECT profiles.* FROM profiles" if sql_string.empty?
+			if ["skill"].include? filter
+				string << ", skills" 
+			end
+			if ["experience"].include? filter
+				string << ", experiences"
+			end
+			if ["education"].include? filter
+				string << ", educations" 
+			end
+			return string
 		end
 end
