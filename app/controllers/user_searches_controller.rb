@@ -47,7 +47,7 @@ class UserSearchesController < ApplicationController
 			when "skill"
 				string << "skills.name like '%#{value}%' AND "
 			when "experience"
-				string << "experiences.degree like '%#{value}%' AND "
+				string << "experiences.title like '%#{value}%' AND "
 			when "education"
 				string << "educations.title like '%#{value}%' AND "
 			end
