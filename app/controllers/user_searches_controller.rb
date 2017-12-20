@@ -49,7 +49,7 @@ class UserSearchesController < ApplicationController
 			when "experience"
 				string << "experiences.title like '%#{value}%' AND "
 			when "education"
-				string << "educations.title like '%#{value}%' AND "
+				string << "educations.degree like '%#{value}%' AND "
 			end
 
 			Thread.new do
