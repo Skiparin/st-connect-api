@@ -27,7 +27,6 @@ class UserSearchesController < ApplicationController
 					query_string << make_sql_query(filter, value)
 				end
 			end
-			print sql_string + "******************************** HEY"
 			sql_string << " WHERE "
 			string = sql_string << query_string[0..-5]
 			@results = Profile.includes(:skill, :education, :experience).find_by_sql(string)
