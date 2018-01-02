@@ -4,6 +4,7 @@ class ProfileSerializer < ActiveModel::Serializer
   has_many :experience
   has_many :education
   has_many :skill
+  has_many :contact_info
 
 	class ExperienceSerializer < ActiveModel::Serializer
  		attributes :id, :title, :company, :location, :start_time,
@@ -17,5 +18,9 @@ class ProfileSerializer < ActiveModel::Serializer
 
 	class SkillSerializer < ActiveModel::Serializer
  		attributes :id, :name, :description
+	end
+
+	class ContactInfoSerializer < ActiveModel::Serializer
+ 		attributes :id, :email, :phone, :address
 	end
 end
