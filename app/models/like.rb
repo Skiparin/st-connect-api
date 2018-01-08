@@ -17,13 +17,13 @@ class Like < ApplicationRecord
   belongs_to :profile
 
   private
-    # add 1 to the amount of likes in related post.
+    # Add one to the amount of likes in related post.
     def increment_likes_in_post
       self.post.number_of_likes += 1 
       self.post.save!
     end
 
-    # remove 1 from the amount of likes in related post.
+    # Remove one from the amount of likes in related post.
     def decrement_likes_in_post
       self.post.number_of_likes -= 1 
       self.post.save!
