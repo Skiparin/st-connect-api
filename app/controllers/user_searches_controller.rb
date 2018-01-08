@@ -28,7 +28,7 @@ class UserSearchesController < ApplicationController
 				end
 			end
 			sql_string << " WHERE "
-			string = sql_string << query_string[0..-5]
+			string = sql_string << query_string
 			@results = Profile.includes(:skill, :education, :experience).find_by_sql(string)
 		end
 
@@ -36,13 +36,14 @@ class UserSearchesController < ApplicationController
 			@result = Profile.where("#{params[:filter]} like '%#{params[:value]}%'")
 		end
 
+		# Create the condition part of the query, based on the content of the search.
 		def make_sql_query(filter, value)
 			string = ""
 			case filter
 			when "name"
 				string << "profiles.name like '%#{value}%' AND "
 			when "email"
-				string << "profiles.email like '%#{value}%' AND "
+				string << "contact_infos.email like '%#{value}%' AND "
 			when "skill"
 				string << "skills.name like '%#{value}%' AND "
 			when "experience"
@@ -52,13 +53,15 @@ class UserSearchesController < ApplicationController
 			end
 
 			Thread.new do
-  				create_search_statistic(filter, value)
-  				ActiveRecord::Base.connection.close
+  			create_or_update_search_statistic(filter, value)
+  			ActiveRecord::Base.connection.close
 			end
-			string
+			# Removes the last "AND ".
+			string[0..-5]
 		end
 
-		def create_search_statistic(filter, value)
+		# Create or update the search_statistics belonging to the current search.
+		def create_or_update_search_statistic(filter, value)
 			job_desc = get_job_description
 			search_statistic = SearchStatistic.where("search_string = ? and target = ?", value, filter).first
 			if search_statistic.nil?
@@ -73,10 +76,12 @@ class UserSearchesController < ApplicationController
 			end
 		end
 
+		# Return a error if the skill value isn't an Array.
 		def check_if_skill_is_array
     	raise ArgumentError.new("Skill param needs to be an array.") if !(params[:filter][:skill].is_a?(Array)) && !params[:filter][:skill].nil?
 		end
 
+		# Return current_user's current or latest job title.
 		def get_job_description
 			return "Unemployed".to_sym if current_user.profile.experience.empty?
 			current_user.profile.experience.each do |e|
@@ -85,17 +90,18 @@ class UserSearchesController < ApplicationController
 			current_user.experience.order(end_time: :desc).first.title
 		end
 
+		# Add which tabels the query should query from.
 		def add_table_to_sql_string(filter, value, sql_string)
 			string = ""
 			string = "SELECT profiles.* FROM profiles" if sql_string.empty?
 			if ["skill"].include? filter
 				string << ", skills" 
-			end
-			if ["experience"].include? filter
+			elsif ["experience"].include? filter
 				string << ", experiences"
-			end
-			if ["education"].include? filter
+			elsif ["education"].include? filter
 				string << ", educations" 
+			elsif ["email"].include? filter
+				string << ", contact_infos" 
 			end
 			return string
 		end
