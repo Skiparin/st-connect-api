@@ -12,13 +12,13 @@ class SearchStatistic < ApplicationRecord
   																				numericality: { greater_than_or_equal_to: 0 }
 
 
-  before_validation :set_number_of_searches_to_zero, if: :new_record?
+  before_validation :set_number_of_searches_to_one, if: :new_record?
 
 
   has_and_belongs_to_many :profile
 
   private
-  	def set_number_of_searches_to_zero
+  	def set_number_of_searches_to_one
   		self.number_of_searches = 1
   	end
 
