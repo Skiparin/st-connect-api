@@ -13,12 +13,16 @@ class Comment < ApplicationRecord
   belongs_to :profile
 
   private
+    # Make a notification for every comment in the post.
     def make_notifications
       message = "A User has commented on a post."
       n_type = 0
       resource = "/posts/" + self.post.id.to_s
       self.post.comment.each do |c|
-        n = Notification.new(profile_id: c.profile.id, message: message, n_type: n_type, resource: resource).save! if self.profile.id != c.profile.id
+        n = Notification.new(profile_id: c.profile.id,
+                             message: message,
+                             n_type: n_type, 
+                             resource: resource).save! if self.profile.id != c.profile.id
       end
     end
 end
