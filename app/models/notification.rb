@@ -19,13 +19,4 @@ class Notification < ApplicationRecord
                                           length: { maximum: 100 }
                                   
   belongs_to :profile
-
-  def create_notifications_for_user_that_have_comments(post, profile_that_made_comment_id)
-    message = "A User has commented on a post."
-    n_type = 0
-    resource = "/posts/" + post.id
-    post.comment.each do |c|
-      n = Notification.new(c.profile.id, message, n_type, resource).save! if profile_that_made_comment_id != c.profile.id
-    end
-  end
 end
