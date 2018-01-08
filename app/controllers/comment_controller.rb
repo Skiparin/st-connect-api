@@ -13,7 +13,6 @@ class CommentController < ApiController
   end 
 
   private
-
   def find_and_update_comment
     @comment = Comment.find(params[:id])
     @comment.update_attributes!(c_params)
