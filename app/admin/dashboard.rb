@@ -6,7 +6,7 @@ ActiveAdmin.register_page "Dashboard" do
     columns do 
       column do
         panel "Search Statistics" do
-          table_for SearchStatistic.limit(10).order('number_of_searches DESC') do
+          table_for SearchStatistic.limit(20).order('number_of_searches DESC') do
             column "Search Statistic" do |statistic|
               link_to statistic.id, admin_search_statistic_path(statistic)
             end
@@ -15,41 +15,12 @@ ActiveAdmin.register_page "Dashboard" do
             column :number_of_searches
             # This column will only take the 5 highest key value pairs from
             # job_descriptions_using_search
-            column "job_descriptions_using_search" do |statistic|
+            column "Job Descriptions Using Search" do |statistic|
                 text_node statistic.get_max_ten_pairs
             end
-            #column "Sales/month" do |statistic|
-            #  text_node statistic.get_sold_month
-            #end
-            #column :price
-            #column :on_sale
-            #column "Sale percentage" do |statistic|
-            #  text_node statistic.on_sale_percentage
-            #end
           end
         end
       end
-=begin
-      column do
-        panel "Beta keys" do
-          table_for DiscountKey.active.limit(10).order('uses DESC') do
-            column "Key" do |key|
-              link_to key.id, admin_discount_key_path(key)
-            end
-            column :key
-            column :uses
-            column :max_uses
-            column "Discount" do |key|
-              text_node key.discount_percentage
-            end
-            column :course_id
-            column :key_type
-            column :valid_until
-          end
-        end
-      end
-=end
-
 end
 
     # Here is an example of a simple dashboard with columns and panels.
