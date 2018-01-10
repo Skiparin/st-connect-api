@@ -1,4 +1,4 @@
-class LikeController < ApiController
+class LikesController < ApiController
   before_action :authenticate_user!
   before_action :create_like, only: [:create]
   before_action :find_and_update_like, only: [:update]
@@ -20,9 +20,12 @@ class LikeController < ApiController
   end
 
   def create_like
-    @like = Like.new(l_params)
-    Post.find(l_params[:post_id]).like << @like
-    @like.save!
+    @like = Like.where("post_id = ? AND profile_id = ?", l_params[:post_id], current_user.profile.id).first
+    if !@like
+      @like = Like.new(post_id: l_params[:post_id], profile_id: current_user.profile.id)
+      Post.find(l_params[:post_id]).like << @like
+      @like.save!
+    end
   end
 
   def l_params
