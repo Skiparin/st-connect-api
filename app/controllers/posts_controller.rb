@@ -1,5 +1,5 @@
 class PostsController < ApplicationController
-  before_action :authenticate_user!
+  #before_action :authenticate_user!
   before_action :find_posts, only: [:index]
   before_action :find_post, only: [:show]
   before_action :create_post, only: [:create]
@@ -31,7 +31,7 @@ class PostsController < ApplicationController
   end
 
   def find_posts
-    @posts = Post.order(created_at: :desc).limit(params[:size])
+    @posts = Post.includes(:comment, :like).order(created_at: :desc).limit(params[:size])
   end
 
   def find_and_update_post
