@@ -1,4 +1,5 @@
 class UserSearchesController < ApplicationController
+	before_action :authenticate_user!
 	before_action :get_result_with_simple_search, only: [:index]
 	before_action :check_if_skill_is_array, only: [:create]
 	before_action :get_result, only: [:create]
@@ -65,10 +66,11 @@ class UserSearchesController < ApplicationController
 			job_desc = get_job_description
 			search_statistic = SearchStatistic.where("search_string = ? and target = ?", value, filter).first
 			if search_statistic.nil?
+				job_desc_hash = {}
+				job_desc_hash[job_desc] = 1
 				SearchStatistic.new(search_string: value, 
 													 	target: filter, 
-													 	job_descriptions_using_search: {job_desc: 1}).save! 
-
+													 	job_descriptions_using_search: job_desc_hash).save! 
 			else
 				search_statistic.job_descriptions_using_search[job_desc] = 1 + search_statistic.job_descriptions_using_search[job_desc.to_sym].to_i
 				search_statistic.number_of_searches += 1
@@ -82,6 +84,7 @@ class UserSearchesController < ApplicationController
 		end
 
 		# Return current_user's current or latest job title.
+		# Returns 'Unemployed' if there aren't any experiences.
 		def get_job_description
 			return "Unemployed".to_sym if current_user.profile.experience.empty?
 			current_user.profile.experience.each do |e|
